@@ -25,8 +25,6 @@ const adminRoutes = require("./routes/admin");
 // API
 const apiRouter = require("./routes/api");
 
-const config = require("./config");
-
 // TODO: Remove startup definitivly if not needed at all in the future
 // const startup = require("./startup");
 

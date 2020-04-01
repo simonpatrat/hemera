@@ -8,5 +8,6 @@ module.exports = {
   S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
   S3_BUCKET_FOLDER: process.env.S3_BUCKET_FOLDER,
   NODE_ENV: process.env.NODE_ENV,
-  PORT: process.env.PORT
+  PORT: process.env.PORT,
+  EXPRESS_SESSION_SECRET: process.env.EXPRESS_SESSION_SECRET
 };

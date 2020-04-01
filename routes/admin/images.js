@@ -24,9 +24,6 @@ router.get(
 );
 
 router.post("/add", checkIsAuthenticated, (req, res, next) => {
-  console.log("CURENT USER: ", res.locals.currentUser);
-  console.log("CURENT USER CAN PUBLISH: ", res.locals.currentUser.canPublish());
-
   const { currentUser } = res.locals;
 
   if (currentUser && currentUser.canPublish()) {

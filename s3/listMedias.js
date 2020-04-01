@@ -27,7 +27,6 @@ function getBucketObjectsList() {
           throw new Error(error);
         }
 
-        console.log("Success", data);
         return resolve(data);
       });
     } catch (error) {

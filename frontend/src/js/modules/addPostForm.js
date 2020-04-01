@@ -46,7 +46,6 @@ function addPostForm(form) {
 
     try {
       const outputData = await editor.save();
-      console.log("Article data: ", outputData);
 
       formData.append("editorContent", JSON.stringify(outputData));
       const responseData = await fetch(apiUrl, {
@@ -54,7 +53,6 @@ function addPostForm(form) {
         body: formData
       });
       const response = await responseData.json();
-      console.log("Post saved with success !", response);
     } catch (error) {
       console.error("Editor saving failed: ", error);
     }

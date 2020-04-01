@@ -14,7 +14,7 @@ exports.article_create = async function(req, res, next) {
 
         const { title, editorContent: editorContentJson } = fields;
         const editorContent = JSON.parse(editorContentJson);
-        console.log("================================");
+
         const slug = slugify(title);
         const easyId = `post_${uuidV4()}_${slug}_ec_${editorContent.time}`;
         const formFieldsToSave = {
@@ -24,8 +24,7 @@ exports.article_create = async function(req, res, next) {
           content: editorContent,
           files
         };
-        console.log(err, formFieldsToSave);
-        console.log("================================");
+
         return resolve({
           message: "Post created with success!",
           postData: formFieldsToSave

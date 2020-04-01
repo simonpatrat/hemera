@@ -67,7 +67,6 @@ function addImageForm(form) {
         .then(async response => {
           if (response.status !== 404) {
             const json = await response.json();
-            // console.log(json);
             afterSubmitImage(
               statusTextOutput,
               addImagesForm,

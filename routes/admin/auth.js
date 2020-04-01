@@ -25,8 +25,6 @@ router.post(
   "/register",
   asyncHandler(async (req, res, next) => {
     const cryptedPassword = await bcrypt.hash(req.body.password, 10);
-    console.log("USERNAME EXISTS: ", req.usernameExists);
-    console.log("EMAIL IS TAKEN: ", req.emailIsTaken);
 
     if (req.usernameExists) {
       res.status(500).render("register", {

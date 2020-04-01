@@ -39,7 +39,6 @@ async function uploadFile({ file, name, fileExtension }) {
         });
       }
       if (data) {
-        console.log("Upload Success", data, data.Location);
         return resolve(data);
       }
     });

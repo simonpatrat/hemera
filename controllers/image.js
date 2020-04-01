@@ -20,7 +20,6 @@ const getImageUrl = (image, bucketName, bucketFolder) => {
 };
 
 exports.image_create = asyncHandler(async (req, res, next) => {
-  console.log(req.body);
   const form = formidable({ multiples: true });
 
   form.parse(req, async (err, fields, files) => {
@@ -29,9 +28,6 @@ exports.image_create = asyncHandler(async (req, res, next) => {
       next(err);
       return;
     }
-
-    console.log("REQ.headers: ", req.headers);
-    console.log({ fields, files });
 
     const file = files.file || files.image;
     let { title, description } = fields;

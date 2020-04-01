@@ -23,7 +23,6 @@ export const parseAndSanitizedForm = (form, elements) => {
       isValid: !!trimmedValue
     };
 
-    console.log("Validating ", name);
     switch (name) {
       case "email":
         return {

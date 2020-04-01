@@ -24,7 +24,20 @@ router.get(
 );
 
 router.post("/add", checkIsAuthenticated, (req, res, next) => {
-  return image_controller.image_create(req, res, next);
+  console.log("CURENT USER: ", res.locals.currentUser);
+  console.log("CURENT USER CAN PUBLISH: ", res.locals.currentUser.canPublish());
+
+  const { currentUser } = res.locals;
+
+  if (currentUser && currentUser.canPublish()) {
+    return image_controller.image_create(req, res, next);
+  } else {
+    const error = new Error({
+      type: 500,
+      message: "Current user has not the right to publish"
+    });
+    return next(error);
+  }
 });
 
 /* GET images add. */

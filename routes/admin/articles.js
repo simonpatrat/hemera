@@ -20,7 +20,15 @@ router.get(
 );
 
 router.post("/add", checkIsAuthenticated, (req, res, next) => {
-  return article_controller.article_create(req, res, next);
+  if (currentUser && currentUser.canPublish()) {
+    return article_controller.article_create(req, res, next);
+  } else {
+    const error = new Error({
+      type: 500,
+      message: "Current user has not the right to publish"
+    });
+    return next(error);
+  }
 });
 
 /* GET images add. */

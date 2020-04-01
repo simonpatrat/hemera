@@ -9,7 +9,7 @@ let UserSchema = new Schema({
     type: String,
     enum: ["admin", "user", "guest"],
     required: true,
-    default: "user"
+    default: "guest"
   }
 });
 

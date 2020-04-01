@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .login-page-content.form-page-content
+    .login.login--boxed.form-wrapper.form-wrapper--boxed
+        .login__header.form-wrapper__header
+          h1= title
+          p Please enter your credentials
+        form#login-form.form.form--login(action="/admin/auth/login", method="POST")
+          .form__part
+              label(for="username") Username
+              input#username.form__input.form__input--text(type="text" name="username")
+          .form__part
+              label(for="password") Password
+              input#password.form__input.form__input--text(type="password" name="password")
+          button.btn.btn--submit(type="submit") Login
+          .form__part.form__footer.text-center
+            p Not registered ? <a href="/admin/auth/register">Create an account</a>
+        script.
+          const form = document.getElementById('login-form');
+          form.addEventListener("submit", (event) => {
+            // event.preventDefault();
+          });

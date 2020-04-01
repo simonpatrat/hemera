@@ -1,0 +1,15 @@
+#main {
+  padding: 0 20px;
+  flex-basis: calc(100% - var(--navbar-vertical-width-mobile));
+  @media (min-width: 768px) {
+    flex-basis: calc(100% - var(--navbar-vertical-width-desktop));
+  }
+
+  .without-left-menu & {
+    flex-basis: 100%;
+
+    @media (min-width: 768px) {
+      flex-basis: 100%;
+    }
+  }
+}

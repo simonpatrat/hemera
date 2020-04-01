@@ -1,0 +1,29 @@
+extends layout
+block content
+    h1 Upload images
+        .form-wrapper
+            form(id="add-images-form" data-module="addImageForm")
+                .user-input
+                .form-part
+                    .form-element.form-element--file
+                        .form-element__inner
+                            input(id="image-file" type="file" name="image-file")
+                            label.btn.btn--add-image(for="image-file") Ajouter une image
+
+                    .form-part
+                        .form-element.form-element--text
+                            label(for="image-title") Titre:
+                            input(id="image-title" type="text" name="image-title")
+
+                    .form-part
+                        .form-element.form-element--textarea
+                            label(for="image-description") Description:
+                            textarea(id="image-description" name="image-description")
+
+                    .form-part.form-footer
+                        button.btn.btn--submit(id="add-images-form-submit-button" type="submit") Upload!
+
+                .output
+                    .form-element--file__image-container
+                        img.form-element--file__image(id="image-preview" src="https://i.picsum.photos/id/866/640/400.jpg" alt="your image" width="640")
+

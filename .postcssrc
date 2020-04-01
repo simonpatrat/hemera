@@ -1,0 +1,9 @@
+{
+  "plugins": {
+    "precss": true,
+    "postcss-color-mod-function": true,
+    "autoprefixer": {
+      "grid": true
+    }
+  }
+}

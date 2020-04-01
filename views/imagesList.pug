@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+
+  ul.images-list(data-module="imagesLoaded")
+    each image, index in images
+      li.images-list__item
+        span.image-list__item__image-box
+          img(src= image.url width=300)
+        p.title= image.title
+    li.images-list__item.add-new-image
+      a.btn.btn--small(href="/admin/images/add" aria-label="Ajouter une nouvelle image") <span>Ajouter</span> <i class="las la-plus link-icon"></i>

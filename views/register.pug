@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .form-page-content
+    .form-wrapper.form-wrapper--boxed
+      .form-wrapper__header
+        h1= title
+        p Please enter your information to register
+        if error
+          p.alert.alert--danger #{error.message}
+      form#register-form.form.form--register(action="/admin/auth/register", method="POST" data-module="registerForm")
+        .form__part
+            label(for="username") Username <span class="form__label__info">3 caracters min.</span>
+            input#username.form__input.form__input--text.input--observable(type="text" name="username")
+            span.form-error username already exists or is not enough long
+        .form__part
+            label(for="email") Email <span class="form__label__info">Email must be valid</span>
+            input#email.form__input.form__input--text.input--observable(type="email" name="email")
+            span.form-error email is invalid or is already taken
+        .form__part
+            label(for="password") Password <span class="form__label__info">5 caracters min.</span>
+            input#password.form__input.form__input--text(type="password" name="password")
+        button.btn.btn--submit(type="submit") Register

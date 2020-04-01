@@ -1,0 +1,146 @@
+form {
+  padding: 16px;
+  box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.2);
+  margin: 30px 0;
+}
+
+.form-part {
+  padding: 8px 16px;
+}
+
+form label,
+form .label {
+  display: block;
+  padding: 8px 0;
+  font-weight: bold;
+  margin: 0;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  padding: 4px 8px;
+  width: 100%;
+  height: 42px;
+  font-size: 16px;
+}
+
+input:not([type="file"]),
+textarea {
+  border: 1px solid transparent;
+  background: var(--form-input-bg-color);
+  color: var(--form-input-color);
+  border-radius: 5px;
+  outline: none;
+  transition: all 300ms ease;
+
+  &:focus {
+    border: 1px solid var(--color-dark);
+  }
+}
+
+input {
+  + .form-error {
+    display: none;
+    color: red;
+  }
+}
+
+input.with-error {
+  border: 2px solid red;
+
+  + .form-error {
+    display: block;
+  }
+}
+
+textarea {
+  width: 100%;
+  min-height: 100px;
+  border: none;
+  color: #eee;
+  max-width: 100%;
+  font-size: 16px;
+}
+
+.form-footer {
+  text-align: center;
+}
+
+input[type="file"] {
+  display: none;
+  visibility: hidden;
+}
+
+.form-element--file__image-container {
+  min-height: 400px;
+  padding: 20px;
+}
+
+.form-element--file__image {
+  box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: inline-block;
+  transition: all 300ms ease;
+  background: #343434;
+  max-width: 100%;
+  height: auto;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.form__part {
+  padding: 20px 0;
+
+  .form__footer {
+    padding-top: 32px;
+  }
+}
+
+.form__footer {
+  padding-top: 32px;
+}
+
+.form-element--wysiwyg-editor {
+  margin: 32px auto;
+}
+
+.form-page-content {
+  display: flex;
+  min-height: calc(100vh - var(--horizontal-menu-height));
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-wrapper {
+  margin: 32px auto;
+  box-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.4);
+  background: var(--color-darker);
+  padding: 24px 24px 16px 24px;
+  border-radius: 10px;
+  color: var(--color-primary-lighter);
+
+  &--boxed {
+    width: 90%;
+    max-width: 500px;
+  }
+
+  .form-wrapper__header {
+    padding: 0 16px;
+    text-align: center;
+  }
+
+  .form {
+    box-shadow: none;
+    border-radius: 0px;
+  }
+}
+
+.form__label__info {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+}

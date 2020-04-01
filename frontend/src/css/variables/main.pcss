@@ -1,0 +1,64 @@
+/* $color-primary: #ff5252; rouge sympa */
+/* $color-primary: #0947dd; bleu cool */
+/* $color-primary: #ff793f; orange cool */
+/* $color-primary: #00b894; cool green */
+$color-primary: #0947dd;
+$color-secondary: #ffb142;
+
+:root {
+  --color-grey-lighter: #eee;
+
+  --color-danger: #ff4757;
+  --color-warning: #eccc68;
+  --color-info: #7bed9f;
+
+  --color-danger-text: color-mod(var(--color-danger) shade(65%));
+  --color-warning-text: color-mod(var(--color-warning) shade(65%));
+  --color-info-text: color-mod(var(--color-info) shade(65%));
+
+  --color-primary: $color-primary;
+  --color-primary-light: color-mod(var(--color-primary) whiteness(25%));
+  --color-primary-lighter: color-mod(var(--color-primary) whiteness(60%));
+  --color-primary-desaturated: color-mod(var(--color-primary) saturation(30%));
+
+  --color-secondary: $color-secondary;
+  --color-secondary-light: color-mod(var(--color-secondary) whiteness(25%));
+  --color-secondary-lighter: color-mod(var(--color-secondary) whiteness(60%));
+
+  --color-dark: color-mod(var(--color-primary) blackness(40%));
+  --color-dark-medium: color-mod(var(--color-primary) shade(65%));
+  --color-darker: color-mod(var(--color-primary) shade(85%));
+  --color-darker-max: color-mod(var(--color-primary) shade(95%));
+
+  --body-bg-color: var(--color-darker-max);
+
+  --color-text: var(--color-grey-lighter);
+  --color-text-dark-mode: var(--color-grey-lighter);
+
+  --link-color: color-mod(var(--color-secondary) whiteness(10%));
+  --link-color-hover: color-mod(var(--color-secondary) whiteness(40%));
+
+  --btn-bg-color: var(--color-primary);
+  --btn-color: var(--color-grey-lighter);
+  --btn-bg-color-hover: color-mod(var(--btn-bg-color) tint(10%) whiteness(25%));
+  --btn-color-hover: var(--color-grey-lighter);
+
+  --menu-link-color: color-mod(var(--color-primary) whiteness(40%) tint(20%));
+  --menu-link-color-hover: var(--color-grey-lighter);
+  --menu-link-bg-color: rgba(0, 0, 0, 0);
+  --menu-link-bg-color-hover: rgba(255, 255, 255, 0.1);
+  --menu-link-bg-color-active: transparent;
+  --menu-link-color-active: #fff;
+
+  --menu-link-bg-color-hover-active: rgba(255, 255, 255, 0.05);
+
+  --form-input-bg-color: var(--color-dark-medium);
+  --form-input-color: var(--color-secondary);
+
+  --base-font-size: 13px;
+
+  --navbar-vertical-width-mobile: 80px;
+  --navbar-vertical-width-desktop: 240px;
+
+  --horizontal-menu-height: 60px;
+}

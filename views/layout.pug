@@ -1,0 +1,63 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css")
+    link(rel='stylesheet', href='/index.css')
+  body
+    #main-wrapper(class=!!currentUser ? "" : "without-left-menu")
+      nav#user-menu
+        .user-info.dropdown.dropdown--right(data-module="userMenu")
+          if currentUser
+            button.btn.dropdown__button
+              <span>#{currentUser.username}<span> <i class="las la-caret-down"></i>
+            .dropdown__panel
+              ul.dropdown__list
+                li.dropdown__list__item
+                  a.btn.btn--small(href='/admin/auth/logout') <span>Log out</span> <i class="las la-sign-out-alt link-icon link-icon--small"></i>
+          else
+            button.btn.btn--dropdown.dropdown__button
+              <span>not connected</span> <i class="las la-caret-down"> </i>
+            .dropdown__panel
+              ul.dropdown__list
+                li.dropdown__list__item
+                  a.btn.btn--small(href="/admin/auth/login") <span>Login</span> <i class="las la-sign-in-alt link-icon link-icon--small"></i>
+                li.dropdown__list__item
+                  a(href="/admin/auth/register") <span>Register</span> <i class="las la-sign-in-alt link-icon link-icon--small"></i>
+      if currentUser
+        nav#main-navigation
+          ul.main-navigation__list
+            li.main-navigation__list__item
+              a(href="/") <i class="las la-campground link-icon"></i></i> <span class="main-navigation__list__item__text">Home</span>
+            li.main-navigation__list__item
+              a(href="/admin") <i class="las la-user-cog link-icon"></i> <span class="main-navigation__list__item__text">Admin</span>
+            li.main-navigation__list__item
+              ul.main-navigation__list
+                li.main-navigation__list__item
+                  a(href="/admin") <i class="las la-tachometer-alt link-icon"></i> <span class="main-navigation__list__item__text">Dashboard</span>
+                li.main-navigation__list__item
+                  a(href="/admin/images") <i class="las la-images link-icon"></i> <span class="main-navigation__list__item__text">Liste des images</span>
+                li.main-navigation__list__item
+                  a(href="/admin/images/add") <i class="las la-plus link-icon"></i> <span class="main-navigation__list__item__text">Ajouter des images</span>
+                li.main-navigation__list__item
+                  a(href="/admin/articles/add") <i class="las la-plus link-icon"></i> <span class="main-navigation__list__item__text">Ajouter un article</span>
+      main#main
+        block content
+      .loading-overlay
+        p.loading-status__text
+
+    script(src="/index.js")
+    script.
+      (function() {
+        const menuItems = document.querySelectorAll('.main-navigation__list__item');
+        [...menuItems].forEach((item) => {
+          const link = item.querySelector('a');
+          if ((
+            link.getAttribute('href').replace(/\//g, '') === location.pathname.replace(/\//g, '')
+          )) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      })()

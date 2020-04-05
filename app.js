@@ -6,6 +6,7 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const Bundler = require("parcel-bundler");
+const cors = require("cors");
 
 const bcrypt = require("bcrypt");
 
@@ -84,6 +85,7 @@ passport.deserializeUser(function(id, cb) {
 });
 
 const app = express();
+app.use(cors());
 
 // PARCEL BUNDLER FOR FRONTEND
 const jsbaseFile = "./frontend/src/js/index.js"; // Passe ici un chemin absolu vers le point d'entrée

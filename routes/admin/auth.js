@@ -2,6 +2,7 @@ const express = require("express");
 const asyncHandler = require("express-async-handler");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const config = require("../../config");
 
 const userModel = require("../../models/user");
 const loginController = require("../../controllers/login");
@@ -14,7 +15,17 @@ const {
 router.get(
   "/register",
   asyncHandler(async (req, res, next) => {
-    res.render("register", { title: "Register" });
+    if (config.REGISTER_ALLOWED === "true") {
+      res.render("register", { title: "Register" });
+    } else {
+      res.render("error", {
+        message: "⛈ Adding new users are not allowed for the moment 🤓",
+        error: {
+          status: 403,
+          stack: "Register not allowed"
+        }
+      });
+    }
   })
 );
 

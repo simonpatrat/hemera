@@ -19,6 +19,59 @@ const getImageUrl = (image, bucketName, bucketFolder) => {
   return imageUrl;
 };
 
+const image_save = async (req, res, next, fields, files) => {
+  const file = files.file || files.image;
+  let { title, description } = fields;
+  if (!title) {
+    title = file.name;
+  }
+  const fileExtension = path.extname(file.name);
+
+  const colorPalette = await getImageColorPalette(file.path);
+  const fileName = title.trim().replace(/\s/g, "_");
+  await optimizeImages({
+    images: [file.path],
+    width: 1920,
+    quality: 60
+  });
+  const s3Upload = await uploadFile({
+    file: file.path,
+    name: fileName,
+    fileExtension
+  });
+
+  if (!!s3Upload.error) {
+    throw new Error(s3Upload.error);
+  }
+
+  const { Location, ETag } = s3Upload;
+
+  let image = new Image({
+    dateUploaded: new Date().toString(),
+    title,
+    colorPalette: colorPalette,
+    description,
+    url: Location || getImageUrl(file),
+    fileName,
+    s3_eTag: ETag
+  });
+
+  image.save(function(err) {
+    if (err) {
+      console.log(err);
+      return next(err);
+    }
+    res.json({
+      success: 1,
+      file: {
+        url: image.url
+        // ... and any additional fields you want to store, such as width, height, color, extension, etc
+      },
+      message: "Image Saved successfully!"
+    });
+  });
+};
+
 exports.image_create = asyncHandler(async (req, res, next) => {
   const form = formidable({ multiples: true });
 
@@ -28,56 +81,8 @@ exports.image_create = asyncHandler(async (req, res, next) => {
       next(err);
       return;
     }
-
-    const file = files.file || files.image;
-    let { title, description } = fields;
-    if (!title) {
-      title = file.name;
-    }
-    const fileExtension = path.extname(file.name);
-
-    const colorPalette = await getImageColorPalette(file.path);
-    const fileName = title.trim().replace(/\s/g, "_");
-    await optimizeImages({
-      images: [file.path],
-      width: 1920,
-      quality: 60
-    });
-    const s3Upload = await uploadFile({
-      file: file.path,
-      name: fileName,
-      fileExtension
-    });
-
-    if (!!s3Upload.error) {
-      throw new Error(s3Upload.error);
-    }
-
-    const { Location, ETag } = s3Upload;
-
-    let image = new Image({
-      dateUploaded: new Date().toString(),
-      title,
-      colorPalette: colorPalette,
-      description,
-      url: Location || getImageUrl(file),
-      fileName,
-      s3_eTag: ETag
-    });
-
-    image.save(function(err) {
-      if (err) {
-        console.log(err);
-        return next(err);
-      }
-      res.json({
-        success: 1,
-        file: {
-          url: image.url
-          // ... and any additional fields you want to store, such as width, height, color, extension, etc
-        },
-        message: "Image Saved successfully!"
-      });
-    });
+    image_save(req, res, next, fields, files);
   });
 });
+
+exports.image_save;

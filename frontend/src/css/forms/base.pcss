@@ -2,10 +2,26 @@ form {
   padding: 16px;
   box-shadow: 2px 2px 20px 0 rgba(0, 0, 0, 0.2);
   margin: 30px 0;
-}
 
-.form-part {
-  padding: 8px 16px;
+  .form__columns {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form__column {
+    &--left {
+      width: 70%;
+    }
+
+    &--right {
+      width: 30%;
+      padding: 0 32px;
+    }
+
+    &--full {
+      width: 100%;
+    }
+  }
 }
 
 form label,
@@ -27,7 +43,7 @@ input[type="email"] {
 
 input:not([type="file"]),
 textarea {
-  border: 1px solid transparent;
+  border: 1px solid var(--color-dark);
   background: var(--form-input-bg-color);
   color: var(--form-input-color);
   border-radius: 5px;
@@ -40,6 +56,7 @@ textarea {
 }
 
 input {
+  border: 1px solid var(--color-dark);
   + .form-error {
     display: none;
     color: red;
@@ -118,7 +135,7 @@ input[type="file"] {
 .form-wrapper {
   margin: 32px auto;
   box-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.4);
-  background: var(--color-darker);
+  background: var(--form-background);
   padding: 24px 24px 16px 24px;
   border-radius: 10px;
   color: var(--color-primary-lighter);

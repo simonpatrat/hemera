@@ -1,15 +1,29 @@
 #main {
   padding: 0 20px;
-  flex-basis: calc(100% - var(--navbar-vertical-width-mobile));
+  width: calc(
+    100% - var(--navbar-vertical-width-mobile) - var(--navbar-vertical-margin)
+  );
+  margin-left: calc(
+    var(--navbar-vertical-width-mobile) + var(--navbar-vertical-margin)
+  );
+
   @media (min-width: 768px) {
-    flex-basis: calc(100% - var(--navbar-vertical-width-desktop));
+    width: calc(
+      100% - var(--navbar-vertical-width-desktop) -
+        var(--navbar-vertical-margin)
+    );
+    margin-left: calc(
+      var(--navbar-vertical-width-desktop) + var(--navbar-vertical-margin)
+    );
   }
 
   .without-left-menu & {
-    flex-basis: 100%;
+    width: 100%;
+    margin-left: 0;
 
     @media (min-width: 768px) {
-      flex-basis: 100%;
+      width: 100%;
+      margin-left: 0;
     }
   }
 }

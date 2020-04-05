@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1= title
+
+  if message
+    p(class="alert alert--" + message.type) message.text
+
+  if categories && categories.length
+    ul.categories-list.list-table
+        each category, index in categories
+            li.categories-list__item.list-table__item
+                span.list-table__item__column= category.name
+                span.list-table__item__column= category.description
+  p Add category
+  form.form(action="/admin/categories/add" method="POST")
+    .form__part
+        label(for="name") Name
+        input(type="text" name="name" id="name")
+    .form__part
+        label(for="description") Description
+        input(type="text" name="description" id="description")
+    .form__part.form__footer
+        button.btn.btn--submit(type="submit") Create Category

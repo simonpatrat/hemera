@@ -42,6 +42,7 @@ exports.article_create = async function(req, res, next) {
       categories,
       metas
     } = postData;
+
     let post = new Post({
       easyId,
       dateCreated: new Date().toUTCString(),

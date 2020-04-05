@@ -2,15 +2,27 @@ extends layout
 block content
     h1 #{title}
     .form-wrapper
-        form(action="/admin/articles/add" method="POST" data-module="addPostForm")
-            .user-input
-                .form-part
-                    .form-element.form-element--text
-                        label(for="title") Titre
-                        input#add_article_form_title.input--observable(type="text" name="title")
-                        span.form-error You must enter a post title
-                    .form-element.form-element--wysiwyg-editor
-                        p.form-label Contenu de l'article
-                        #editorjs
-                .form-part.form-footer
-                    button.btn.btn--submit#add_article_form_submit_button(type="submit") Save
+        form.form(action="/admin/articles/add" method="POST" data-module="addPostForm")
+            .form__columns
+                .form__column.form__column--left
+                    .form__part
+                        .form-element.form-element--text
+                            label(for="title") Titre
+                            input#add_article_form_title.input--observable(type="text" name="title")
+                            span.form-error You must enter a post title
+                        .form-element.form-element--wysiwyg-editor
+                            p.form-label Contenu de l'article
+                            #editorjs
+                .form__column.form__column--right
+                    .form__part
+                        if categories && categories.length
+                            label(for="categories") Catégories
+                            select#categories-selector(name="categories" multiple)
+                                each category, index in categories
+                                    option.categories-selector__option(value=category._id) #{category.name}
+                    .form__part
+                        label.btn(for="featuredImage") Ajouter une image à la une
+                        input(type="file" name="featuredImage" id="featuredImage")
+
+            .form__part.form__footer
+                button.btn.btn--submit#add_article_form_submit_button(type="submit") Save

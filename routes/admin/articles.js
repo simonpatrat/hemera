@@ -1,23 +1,12 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
+const orderBy = require("lodash/orderBy");
 
 const article_controller = require("../../controllers/article");
 const checkIsAuthenticated = require("./lib/checkIsAuthenticated");
-const router = express.Router();
+const CategoriesModel = require("../../models/category");
 
-/* GET images. */
-router.get(
-  "/",
-  checkIsAuthenticated,
-  asyncHandler(async (req, res, next) => {
-    try {
-      const images = await ImageModel.find();
-      res.render("imagesList", { images: images, title: "Images" });
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  })
-);
+const router = express.Router();
 
 router.post("/add", checkIsAuthenticated, (req, res, next) => {
   if (currentUser && currentUser.canPublish()) {
@@ -36,9 +25,13 @@ router.get(
   "/add",
   checkIsAuthenticated,
   asyncHandler(async (req, res, next) => {
+    const categories = await CategoriesModel.find();
+    const orderedCategories = orderBy(categories, "name");
+
     res.render("addArticle", {
       title: "New article",
-      currentPage: "addArticle"
+      currentPage: "addArticle",
+      categories: orderedCategories
     });
   })
 );

@@ -9,16 +9,18 @@ html {
 body {
   padding: 0;
   margin: 0;
-  font: 1rem "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans-serif);
+  font-size: 1rem;
+  font-weight: 100;
   transition: all 400ms ease;
+  min-height: 100vh;
   /*   color: #ccc;
   background: #111; */
   color: var(--color-text);
-  background: var(--body-bg-color);
+  background: var(--body-background);
 }
 
 #main-wrapper {
-  display: flex;
   margin-top: var(--horizontal-menu-height);
 }
 

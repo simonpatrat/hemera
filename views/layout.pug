@@ -2,11 +2,15 @@ doctype html
 html
   head
     title= title
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700;900&display=swap")
     link(rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css")
     link(rel='stylesheet', href='/index.css')
+
   body
     #main-wrapper(class=!!currentUser ? "" : "without-left-menu")
       nav#user-menu
+        .site-information
+          .site-information__name #{title}
         .user-info.dropdown.dropdown--right(data-module="userMenu")
           if currentUser
             button.btn.dropdown__button
@@ -26,21 +30,26 @@ html
                   a(href="/admin/auth/register") <span>Register</span> <i class="las la-sign-in-alt link-icon link-icon--small"></i>
       if currentUser
         nav#main-navigation
+          .main-navigation__header
+            .current-user
+              .current-user__picture
+                img(src="https://i.pravatar.cc/60")
+              .current-user__name #{currentUser.username}
           ul.main-navigation__list
             li.main-navigation__list__item
               a(href="/") <i class="las la-campground link-icon"></i></i> <span class="main-navigation__list__item__text">Home</span>
             li.main-navigation__list__item
-              a(href="/admin") <i class="las la-user-cog link-icon"></i> <span class="main-navigation__list__item__text">Admin</span>
+              a(href="/admin") <i class="las la-tachometer-alt link-icon"></i> <span class="main-navigation__list__item__text">Dashboard</span>
             li.main-navigation__list__item
-              ul.main-navigation__list
-                li.main-navigation__list__item
-                  a(href="/admin") <i class="las la-tachometer-alt link-icon"></i> <span class="main-navigation__list__item__text">Dashboard</span>
-                li.main-navigation__list__item
-                  a(href="/admin/images") <i class="las la-images link-icon"></i> <span class="main-navigation__list__item__text">Liste des images</span>
-                li.main-navigation__list__item
-                  a(href="/admin/images/add") <i class="las la-plus link-icon"></i> <span class="main-navigation__list__item__text">Ajouter des images</span>
-                li.main-navigation__list__item
-                  a(href="/admin/articles/add") <i class="las la-plus link-icon"></i> <span class="main-navigation__list__item__text">Ajouter un article</span>
+              a(href="/admin/images") <i class="las la-images link-icon"></i> <span class="main-navigation__list__item__text">Liste des images</span>
+            li.main-navigation__list__item
+              a(href="/admin/categories") <i class="las la-tags link-icon"></i> <span class="main-navigation__list__item__text">Liste des catégories</span>
+            li.main-navigation__list__item
+              a(href="/admin/images/add") <i class="las la-plus link-icon"></i> <span class="main-navigation__list__item__text">Ajouter des images</span>
+            li.main-navigation__list__item
+              a(href="/admin/articles/add") <i class="las la-plus link-icon"></i> <span class="main-navigation__list__item__text">Ajouter un article</span>
+            li.main-navigation__list__item
+             a(href="/admin/configuration") <i class="las la-cogs link-icon"></i> <span class="main-navigation__list__item__text">Configuration</span>
       main#main
         block content
       .loading-overlay

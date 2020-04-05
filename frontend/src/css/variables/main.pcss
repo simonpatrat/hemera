@@ -10,16 +10,21 @@ $color-secondary: #ffb142;
 
   --color-danger: #ff4757;
   --color-warning: #eccc68;
-  --color-info: #7bed9f;
+  --color-info: #4aa1ff;
+  --color-success: #7bed9f;
 
   --color-danger-text: color-mod(var(--color-danger) shade(65%));
   --color-warning-text: color-mod(var(--color-warning) shade(65%));
   --color-info-text: color-mod(var(--color-info) shade(65%));
+  --color-success-text: color-mod(var(--color-success) shade(65%));
 
   --color-primary: $color-primary;
   --color-primary-light: color-mod(var(--color-primary) whiteness(25%));
   --color-primary-lighter: color-mod(var(--color-primary) whiteness(60%));
   --color-primary-desaturated: color-mod(var(--color-primary) saturation(30%));
+
+  --color-primary-red-blended: color-mod(var(--color-primary) blend(red 40%));
+  --color-primary-blue-blended: color-mod(var(--color-primary) blend(blue 10%));
 
   --color-secondary: $color-secondary;
   --color-secondary-light: color-mod(var(--color-secondary) whiteness(25%));
@@ -30,7 +35,29 @@ $color-secondary: #ffb142;
   --color-darker: color-mod(var(--color-primary) shade(85%));
   --color-darker-max: color-mod(var(--color-primary) shade(95%));
 
-  --body-bg-color: var(--color-darker-max);
+  --color-primary-dark: color-mod(
+    var(--color-primary) blend(red 10%) saturation(30%) shade(70%)
+  );
+  --color-primary-darker: color-mod(
+    var(--color-primary) blend(red 10%) saturation(30%) shade(76%)
+  );
+
+  --color-primary-dark-2: color-mod(
+    var(--color-primary) blend(red 15%) saturation(20%) shade(56%)
+  );
+  --color-primary-darker-2: color-mod(
+    var(--color-primary) blend(red 15%) saturation(20%) shade(62%)
+  );
+
+  --body-background: linear-gradient(
+    var(--color-primary-dark),
+    var(--color-primary-darker)
+  );
+
+  --block-background: linear-gradient(
+    var(--color-primary-dark-2),
+    var(--color-primary-darker-2)
+  );
 
   --color-text: var(--color-grey-lighter);
   --color-text-dark-mode: var(--color-grey-lighter);
@@ -43,7 +70,7 @@ $color-secondary: #ffb142;
   --btn-bg-color-hover: color-mod(var(--btn-bg-color) tint(10%) whiteness(25%));
   --btn-color-hover: var(--color-grey-lighter);
 
-  --menu-link-color: color-mod(var(--color-primary) whiteness(40%) tint(20%));
+  --menu-link-color: #eee;
   --menu-link-color-hover: var(--color-grey-lighter);
   --menu-link-bg-color: rgba(0, 0, 0, 0);
   --menu-link-bg-color-hover: rgba(255, 255, 255, 0.1);
@@ -52,13 +79,26 @@ $color-secondary: #ffb142;
 
   --menu-link-bg-color-hover-active: rgba(255, 255, 255, 0.05);
 
-  --form-input-bg-color: var(--color-dark-medium);
+  --form-background: var(--block-background);
+  --form-input-bg-color: rgba(255, 255, 255, 0.5);
   --form-input-color: var(--color-secondary);
 
+  --font-sans-serif: "Roboto", sans-serif;
   --base-font-size: 13px;
 
   --navbar-vertical-width-mobile: 80px;
   --navbar-vertical-width-desktop: 240px;
+  --navbar-vertical-border-radius: 8px;
+  --navbar-vertical-margin: 16px;
+  --main-navigation-bg-color: linear-gradient(
+    0deg,
+    var(--color-primary-blue-blended),
+    var(--color-primary-light)
+  );
 
   --horizontal-menu-height: 60px;
+
+  --dropdown-panel-bg-color: var(--block-background);
+  --dropdown-panel-caret-bg-color: var(--color-primary-darker-2);
+  --dropdown-color: var(--color-text-dark-mode);
 }

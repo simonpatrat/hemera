@@ -5,7 +5,7 @@ const checkIsAuthenticated = require("./lib/checkIsAuthenticated");
 
 router.get("/", checkIsAuthenticated, (req, res, next) => {
   res.render("adminHome", {
-    title: "Admin Home",
+    title: `${req.siteSettings.sitename} | Admin`,
     user: {
       name: req.user.username
     }

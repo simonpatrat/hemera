@@ -16,7 +16,9 @@ router.get(
   "/register",
   asyncHandler(async (req, res, next) => {
     if (config.REGISTER_ALLOWED === "true") {
-      res.render("register", { title: "Register" });
+      res.render("register", {
+        title: `${req.siteSettings.sitename} | Register`
+      });
     } else {
       res.render("error", {
         message: "⛈ Adding new users are not allowed for the moment 🤓",
@@ -79,7 +81,7 @@ router.post(
 router.get(
   "/login",
   asyncHandler(async (req, res, next) => {
-    res.render("login", { title: "Login" });
+    res.render("login", { title: `${req.siteSettings.sitename} | Login` });
   })
 );
 

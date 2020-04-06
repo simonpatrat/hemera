@@ -56,7 +56,7 @@ const image_save = async (req, res, next, fields, files) => {
     s3_eTag: ETag
   });
 
-  image.save(function(err) {
+  await image.save(function(err) {
     if (err) {
       console.log(err);
       return next(err);
@@ -64,8 +64,10 @@ const image_save = async (req, res, next, fields, files) => {
     res.json({
       success: 1,
       file: {
-        url: image.url
+        url: image.url,
         // ... and any additional fields you want to store, such as width, height, color, extension, etc
+        ...image,
+        s3_eTag: null
       },
       message: "Image Saved successfully!"
     });

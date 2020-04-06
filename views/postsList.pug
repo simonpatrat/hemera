@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= title
+
+  ul.posts-list(data-module="imagesLoaded")
+    each post, index in posts
+      li.posts-list__item
+        span.posts-list__item__title= post.title

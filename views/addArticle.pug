@@ -3,6 +3,8 @@ block content
     h1 #{title}
     .form-wrapper
         form.form(action="/admin/articles/add" method="POST" data-module="addPostForm")
+            .form__header.text-right
+                button.btn.btn--submit.btn--inline#add_article_form_submit_button-1(type="submit") Save
             .form__columns
                 .form__column.form__column--left
                     .form__part
@@ -16,13 +18,17 @@ block content
                 .form__column.form__column--right
                     .form__part
                         if categories && categories.length
-                            label(for="categories") Catégories
-                            select#categories-selector(name="categories" multiple)
+                            p Catégories
+                            ul.categories-input-list
                                 each category, index in categories
-                                    option.categories-selector__option(value=category._id) #{category.name}
-                    .form__part
+                                    div.categories-input-list__item
+                                        input(type="checkbox" id=category._id name="categories" value=category._id data-name=category.name)
+                                        label(for=category._id) #{category.name}
+                    .form__part.form__part--add-image#featuredImage-container
                         label.btn(for="featuredImage") Ajouter une image à la une
                         input(type="file" name="featuredImage" id="featuredImage")
+                        .output-image
+                            img(src="/images/addDocument.svg", alt="No image has been added for the moment")
 
-            .form__part.form__footer
-                button.btn.btn--submit#add_article_form_submit_button(type="submit") Save
+            .form__part.form__footer.text-right
+                button.btn.btn--submit.btn--inline#add_article_form_submit_button-2(type="submit") Save

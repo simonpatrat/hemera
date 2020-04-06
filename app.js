@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const Bundler = require("parcel-bundler");
 const cors = require("cors");
+const withSiteSettings = require("./routes/admin/lib/withSiteSettings");
 
 const bcrypt = require("bcrypt");
 
@@ -40,6 +41,7 @@ mongoose.connect(mongoDB, {
 mongoose.Promise = global.Promise;
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
+mongoose.set("useFindAndModify", false);
 
 passport.use(
   new LocalStrategy(
@@ -134,6 +136,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(withSiteSettings);
 app.use("/", indexRouter);
 app.use("/admin", adminRoutes);
 app.use("/api", apiRouter);

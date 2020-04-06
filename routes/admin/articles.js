@@ -5,10 +5,27 @@ const orderBy = require("lodash/orderBy");
 const article_controller = require("../../controllers/article");
 const checkIsAuthenticated = require("./lib/checkIsAuthenticated");
 const CategoriesModel = require("../../models/category");
+const PostModel = require("../../models/post");
 
 const router = express.Router();
 
+router.get(
+  "/",
+  checkIsAuthenticated,
+  asyncHandler(async (req, res, next) => {
+    const posts = await PostModel.find();
+    const ordredPosts = orderBy(posts, "dateCreated");
+
+    res.render("postsList", {
+      title: `${req.siteSettings.sitename} | Posts`,
+      currentPage: "postList",
+      posts: ordredPosts
+    });
+  })
+);
+
 router.post("/add", checkIsAuthenticated, (req, res, next) => {
+  const { currentUser } = res.locals;
   if (currentUser && currentUser.canPublish()) {
     return article_controller.article_create(req, res, next);
   } else {
@@ -20,7 +37,6 @@ router.post("/add", checkIsAuthenticated, (req, res, next) => {
   }
 });
 
-/* GET images add. */
 router.get(
   "/add",
   checkIsAuthenticated,
@@ -29,7 +45,7 @@ router.get(
     const orderedCategories = orderBy(categories, "name");
 
     res.render("addArticle", {
-      title: "New article",
+      title: `${req.siteSettings.sitename} | New Post`,
       currentPage: "addArticle",
       categories: orderedCategories
     });

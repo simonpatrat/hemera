@@ -49,6 +49,8 @@ $color-secondary: #ffb142;
     var(--color-primary) blend(red 15%) saturation(20%) shade(62%)
   );
 
+  --color-primary-hue: color-mod(var(--color-primary) hue(260));
+
   --body-background: linear-gradient(
     var(--color-primary-dark),
     var(--color-primary-darker)
@@ -65,9 +67,15 @@ $color-secondary: #ffb142;
   --link-color: color-mod(var(--color-secondary) whiteness(10%));
   --link-color-hover: color-mod(var(--color-secondary) whiteness(40%));
 
-  --btn-bg-color: var(--color-primary);
+  --btn-bg-color: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-primary-hue)
+  );
   --btn-color: var(--color-grey-lighter);
-  --btn-bg-color-hover: color-mod(var(--btn-bg-color) tint(10%) whiteness(25%));
+  --btn-bg-color-hover: color-mod(
+    var(--color-primary) tint(10%) whiteness(25%)
+  );
   --btn-color-hover: var(--color-grey-lighter);
 
   --menu-link-color: #eee;
@@ -76,12 +84,15 @@ $color-secondary: #ffb142;
   --menu-link-bg-color-hover: rgba(255, 255, 255, 0.1);
   --menu-link-bg-color-active: transparent;
   --menu-link-color-active: #fff;
+  --menu-link-icon-color-active: var(--color-secondary);
 
   --menu-link-bg-color-hover-active: rgba(255, 255, 255, 0.05);
 
   --form-background: var(--block-background);
-  --form-input-bg-color: rgba(255, 255, 255, 0.5);
-  --form-input-color: var(--color-secondary);
+  --form-input-bg-color: rgba(255, 255, 255, 0.9);
+  --form-input-bg-color-active: #fff;
+  --form-input-color: var(--color-darker);
+  --form-input-border-color: var(--color-primary-darker-2);
 
   --font-sans-serif: "Roboto", sans-serif;
   --base-font-size: 13px;

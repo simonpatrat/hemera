@@ -9,6 +9,7 @@ exports.article_create = async function(req, res, next) {
     const formData = await new Promise((resolve, reject) => {
       return form.parse(req, async (err, fields, files) => {
         if (err) {
+          console.log(err);
           reject(err);
         }
 
@@ -49,8 +50,8 @@ exports.article_create = async function(req, res, next) {
       title,
       slug,
       content,
-      featuredImage: {},
-      categories,
+      featuredImage: JSON.parse(featuredImage),
+      categories: JSON.parse(categories),
       metas,
       author: {
         name: res.locals.currentUser.username
@@ -65,6 +66,7 @@ exports.article_create = async function(req, res, next) {
       res.status(200).json(formData);
     });
   } catch (error) {
+    console.log("ERROR SAVING POST : ", error);
     return next(error);
   }
 };

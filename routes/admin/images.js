@@ -16,7 +16,10 @@ router.get(
     try {
       const images = await ImageModel.find();
       const orderedImages = orderBy(images, "dateUploaded");
-      res.render("imagesList", { images: orderedImages, title: "Images" });
+      res.render("imagesList", {
+        images: orderedImages,
+        title: `${req.siteSettings.sitename} | Images`
+      });
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
@@ -42,7 +45,10 @@ router.get(
   "/add",
   checkIsAuthenticated,
   asyncHandler(async (req, res, next) => {
-    res.render("addImages", { title: "Add image", currentPage: "addImage" });
+    res.render("addImages", {
+      title: `${req.siteSettings.sitename} | Add image`,
+      currentPage: "addImage"
+    });
   })
 );
 

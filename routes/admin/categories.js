@@ -17,7 +17,7 @@ router.get(
       const orderedCategories = orderBy(categories, "name");
       res.render("categoriesList", {
         categories: orderedCategories,
-        title: "Categories",
+        title: `${req.siteSettings.sitename} | Categories`,
         message: res.message
       });
     } catch (err) {

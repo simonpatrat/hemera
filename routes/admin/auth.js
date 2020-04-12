@@ -9,7 +9,7 @@ const loginController = require("../../controllers/login");
 
 const {
   validateUserName,
-  validateUserEmail
+  validateUserEmail,
 } = require("./lib/validateUserCreation");
 
 router.get(
@@ -17,15 +17,15 @@ router.get(
   asyncHandler(async (req, res, next) => {
     if (config.REGISTER_ALLOWED === "true") {
       res.render("register", {
-        title: `${req.siteSettings.sitename} | Register`
+        title: `${req.siteSettings.sitename} | Register`,
       });
     } else {
       res.render("error", {
         message: "⛈ Adding new users are not allowed for the moment 🤓",
         error: {
           status: 403,
-          stack: "Register not allowed"
-        }
+          stack: "Register not allowed",
+        },
       });
     }
   })
@@ -46,8 +46,8 @@ router.post(
           message:
             'User name "' +
             req.body.username +
-            '" is already taken. Please enter another name'
-        }
+            '" is already taken. Please enter another name',
+        },
       });
     } else if (req.emailIsTaken) {
       res.status(500).render("register", {
@@ -56,14 +56,14 @@ router.post(
           message:
             "Email " +
             req.body.email +
-            " is already taken. Please chose another email address"
-        }
+            " is already taken. Please chose another email address",
+        },
       });
     } else {
       let user = new userModel({
         username: req.body.username,
         email: req.body.email,
-        password: cryptedPassword
+        password: cryptedPassword,
       });
 
       user.save(function(err) {
@@ -81,7 +81,7 @@ router.post(
 router.get(
   "/login",
   asyncHandler(async (req, res, next) => {
-    res.render("login", { title: `${req.siteSettings.sitename} | Login` });
+    res.status(200).json({ title: `${req.siteSettings.sitename} | Login` });
   })
 );
 

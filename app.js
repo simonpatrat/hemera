@@ -36,7 +36,7 @@ let mongoDB = config.MONGODB_URI;
 
 mongoose.connect(mongoDB, {
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 });
 mongoose.Promise = global.Promise;
 let db = mongoose.connection;
@@ -47,7 +47,7 @@ passport.use(
   new LocalStrategy(
     {
       usernameField: "username",
-      passwordField: "password"
+      passwordField: "password",
     },
     async function(username, password, cb) {
       await userModel.find({ username }, async function(err, userArray) {
@@ -105,7 +105,7 @@ const sess = {
   secret: config.EXPRESS_SESSION_SECRET,
   cookie: {},
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
 };
 
 if (app.get("env") === "production") {
@@ -140,6 +140,14 @@ app.use(withSiteSettings);
 app.use("/", indexRouter);
 app.use("/admin", adminRoutes);
 app.use("/api", apiRouter);
+
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, "client/build")));
+
+// Handles any requests that don't match the ones above
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

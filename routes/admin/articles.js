@@ -16,7 +16,12 @@ router.get(
     const posts = await PostModel.find();
     const ordredPosts = orderBy(posts, "dateCreated");
 
-    res.render("postsList", {
+    /*  res.render("postsList", {
+      title: `${req.siteSettings.sitename} | Posts`,
+      currentPage: "postList",
+      posts: ordredPosts
+    }); */
+    res.status(200).json({
       title: `${req.siteSettings.sitename} | Posts`,
       currentPage: "postList",
       posts: ordredPosts

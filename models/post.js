@@ -7,10 +7,10 @@ let PostSchema = new Schema({
   title: { type: String, required: true },
   slug: { type: String, required: true },
   content: { type: Object, required: true },
-  featuredImage: { type: Object, required: true },
+  featuredImage: { type: Object, required: false },
   categories: { type: Array, required: false },
   metas: { type: Object, required: false },
-  author: { type: Object, required: true }
+  author: { type: Object, required: true },
 });
 
 module.exports = mongoose.model("post", PostSchema);

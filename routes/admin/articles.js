@@ -15,11 +15,28 @@ router.get(
   asyncHandler(async (req, res, next) => {
     const posts = await PostModel.find();
     const ordredPosts = orderBy(posts, "dateCreated");
-
+    console.log(ordredPosts);
     res.render("postsList", {
       title: `${req.siteSettings.sitename} | Posts`,
       currentPage: "postList",
-      posts: ordredPosts
+      posts: ordredPosts,
+    });
+  })
+);
+
+router.get(
+  "/edit/:postSlug",
+  checkIsAuthenticated,
+  asyncHandler(async (req, res, next) => {
+    const categories = await CategoriesModel.find();
+    const orderedCategories = orderBy(categories, "name");
+    const postResult = await PostModel.find({ slug: req.params.postSlug });
+    const post = postResult[0];
+    res.render("addArticle", {
+      title: `${req.siteSettings.sitename} | Edit post | ${post.title}`,
+      currentPage: "addArticle",
+      post: post,
+      categories: orderedCategories,
     });
   })
 );
@@ -31,7 +48,26 @@ router.post("/add", checkIsAuthenticated, (req, res, next) => {
   } else {
     const error = new Error({
       type: 500,
-      message: "Current user has not the right to publish"
+      message: "Current user has not the right to publish",
+    });
+    return next(error);
+  }
+});
+
+router.post("/delete", checkIsAuthenticated, async (req, res, next) => {
+  const { currentUser } = res.locals;
+  if (currentUser && currentUser.canDelete()) {
+    const deletionResult = await article_controller.article_delete(
+      req,
+      res,
+      next
+    );
+    console.log("deletion: ", deletionResult);
+    res.json(deletionResult);
+  } else {
+    const error = new Error({
+      type: 500,
+      message: "Current user has not the right to publish",
     });
     return next(error);
   }
@@ -47,7 +83,7 @@ router.get(
     res.render("addArticle", {
       title: `${req.siteSettings.sitename} | New Post`,
       currentPage: "addArticle",
-      categories: orderedCategories
+      categories: orderedCategories,
     });
   })
 );

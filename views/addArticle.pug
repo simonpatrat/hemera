@@ -2,15 +2,17 @@ extends layout
 block content
     h1 #{title}
     .form-wrapper
-        form.form(action="/admin/articles/add" method="POST" data-module="addPostForm")
+        form.form(action="/admin/articles/add" method="POST" data-module="addPostForm" data-postid= post ? post._id : '')
             .form__header.text-right
                 button.btn.btn--submit.btn--inline#add_article_form_submit_button-1(type="submit") Save
+                if post && post._id
+                    button.btn.btn--danger.posts-list__item__delete-btn(data-module="postActions" data-options={action: "delete", postId: post._id, redirect: '/admin/articles' }) Delete
             .form__columns
                 .form__column.form__column--left
                     .form__part
                         .form-element.form-element--text
                             label(for="title") Titre
-                            input#add_article_form_title.input--observable(type="text" name="title")
+                            input#add_article_form_title.input--observable(type="text" name="title" value= post && post.title ? post.title : '')
                             span.form-error You must enter a post title
                         .form-element.form-element--wysiwyg-editor
                             p.form-label Contenu de l'article
@@ -22,13 +24,22 @@ block content
                             ul.categories-input-list
                                 each category, index in categories
                                     div.categories-input-list__item
-                                        input(type="checkbox" id=category._id name="categories" value=category._id data-name=category.name)
-                                        label(for=category._id) #{category.name}
+                                        input(type="checkbox" id=category._id name="categories" value=category._id data-name=category.name checked= post && post.categories.some(cat => cat.id.toString() === category._id.toString()))
+                                        label(for=category._id) #{category.name} - #{category._id}
                     .form__part.form__part--add-image#featuredImage-container
                         label.btn(for="featuredImage") Ajouter une image à la une
-                        input(type="file" name="featuredImage" id="featuredImage")
+                        input(type="file" name="featuredImage" id="featuredImage" value=post && post.featuredImage ? post.featuredImage.url : '')
                         .output-image
-                            img(src="/images/addDocument.svg", alt="No image has been added for the moment")
+                            img(src= post && post.featuredImage ? post.featuredImage.url : "/images/addDocument.svg", alt= post && post.featuredImage ? post.title : "No image has been added for the moment")
 
             .form__part.form__footer.text-right
                 button.btn.btn--submit.btn--inline#add_article_form_submit_button-2(type="submit") Save
+
+    if post
+        script.
+            let post = !{JSON.stringify(post).replace(/<\//g, '<\\/')}
+            window.__POST__EDITOR__preloadedFields = post.content;
+            console.log(post);
+
+
+

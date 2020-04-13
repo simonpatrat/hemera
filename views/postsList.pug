@@ -6,4 +6,10 @@ block content
   ul.posts-list(data-module="imagesLoaded")
     each post, index in posts
       li.posts-list__item
+        if post.featuredImage
+          span.posts-list__item__image
+            img(src=post.featuredImage.url, alt=post.title width="60" height="60")
         span.posts-list__item__title= post.title
+        span.posts-list__item__author= ' by ' + post.author.name
+        a.btn.posts-list__item__link(href='/admin/articles/edit/' + post.slug) Edit
+        button.btn.btn--danger.posts-list__item__delete-btn(data-module="postActions" data-options={action: "delete", postId: post._id }) Delete

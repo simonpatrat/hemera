@@ -3,21 +3,8 @@ import { createEditor } from "../helpers/wysiwygEditor";
 import {
   getEveryFormElementIsValid,
   observeAndValidateInputs,
-  sanitizeAndHighlightFormElements
+  sanitizeAndHighlightFormElements,
 } from "../helpers/form";
-
-/*
-    // POST MODEL:
-
-    dateCreated: { type: String, required: true },
-    title: { type: String, required: true },
-    slug: { type: String, required: true },
-    content: { type: Object, required: true },
-    featuredImage: { type: Object, required: true },
-    categories: { type: Array, required: false },
-    metas: { type: Object, required: false }
-
-*/
 
 function addPostForm(form) {
   const editor = createEditor();
@@ -26,7 +13,7 @@ function addPostForm(form) {
 
   observeAndValidateInputs({
     formElement: form,
-    cssSelector: ".input--observable"
+    cssSelector: ".input--observable",
   });
 
   const loadingOverlay = document.querySelector(".loading-overlay");
@@ -36,7 +23,7 @@ function addPostForm(form) {
   const featuredImageInputContainer = featuredImageInput.parentElement;
   const featuredImageOutput = featuredImageInputContainer.querySelector("img");
 
-  featuredImageInput.addEventListener("change", event => {
+  featuredImageInput.addEventListener("change", (event) => {
     const input = event.target;
     if (input.files && input.files[0]) {
       const reader = new FileReader();
@@ -50,31 +37,31 @@ function addPostForm(form) {
     }
   });
 
-  form.addEventListener("submit", async event => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const categories = Array.from(form.categories)
-      .filter(cat => {
+      .filter((cat) => {
         return cat.checked;
       })
-      .map(cat => {
+      .map((cat) => {
         return {
           id: cat.value,
-          name: cat.dataset.name
+          name: cat.dataset.name,
         };
       });
 
     loadingOverlay.style.display = "flex";
 
     statusTextOutput.textContent = "Saving in progress...";
-    submitButtons.forEach(button => {
+    submitButtons.forEach((button) => {
       button.setAttribute("disabled", true);
     });
 
     const { action: apiUrl, method } = form;
 
     const sanitizedFormElementsList = sanitizeAndHighlightFormElements(form, [
-      "title"
+      "title",
     ]);
     const everyElementIsValid = getEveryFormElementIsValid(
       sanitizedFormElementsList
@@ -99,7 +86,7 @@ function addPostForm(form) {
 
         const savedImage = await fetch("/admin/images/add", {
           method: "POST",
-          body: imageFormData
+          body: imageFormData,
         });
         const savedImageJson = await savedImage.json();
         console.log("SAVED IMAGE: ", savedImageJson);
@@ -113,14 +100,14 @@ function addPostForm(form) {
       formData.append("categories", JSON.stringify(categories));
       const responseData = await fetch(apiUrl, {
         method,
-        body: formData
+        body: formData,
       });
       const response = await responseData.json();
 
       loadingOverlay.style.display = "none";
 
       statusTextOutput.textContent = "Saving Success!";
-      submitButtons.forEach(button => {
+      submitButtons.forEach((button) => {
         button.setAttribute("disabled", false);
       });
     } catch (error) {
@@ -128,7 +115,7 @@ function addPostForm(form) {
 
       statusTextOutput.textContent = "Saving Error...";
       setTimeout(() => {
-        submitButtons.forEach(button => {
+        submitButtons.forEach((button) => {
           button.setAttribute("disabled", false);
         });
 

@@ -3,6 +3,20 @@ const slugify = require("slugify");
 const uuidV4 = require("uuid/v4");
 const Post = require("../models/post");
 
+exports.article_delete = async function(req, res, next) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await Post.deleteOne({ _id: req.body.postId }, function(err) {
+        if (err) {
+          throw new Error(err);
+        }
+        return resolve({ error: false, message: "Successful deletion" });
+      });
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
 exports.article_create = async function(req, res, next) {
   try {
     const form = formidable({ multiples: true });
@@ -16,19 +30,19 @@ exports.article_create = async function(req, res, next) {
         const { title, editorContent: editorContentJson } = fields;
         const editorContent = JSON.parse(editorContentJson);
 
-        const slug = slugify(title);
+        const slug = slugify(title, { lower: true });
         const easyId = `post_${uuidV4()}_${slug}_ec_${editorContent.time}`;
         const formFieldsToSave = {
           ...fields,
           easyId,
           slug,
           content: editorContent,
-          files
+          files,
         };
 
         return resolve({
           message: "Post created with success!",
-          postData: formFieldsToSave
+          postData: formFieldsToSave,
         });
       });
     });
@@ -41,7 +55,7 @@ exports.article_create = async function(req, res, next) {
       content,
       featuredImage,
       categories,
-      metas
+      metas,
     } = postData;
 
     let post = new Post({
@@ -54,8 +68,8 @@ exports.article_create = async function(req, res, next) {
       categories: JSON.parse(categories),
       metas,
       author: {
-        name: res.locals.currentUser.username
-      }
+        name: res.locals.currentUser.username,
+      },
     });
 
     post.save(function(err) {

@@ -32,4 +32,17 @@ router.get(
   })
 );
 
+/* GET api/posts. */
+router.get(
+  "/v1/categories",
+  asyncHandler(async (req, res, next) => {
+    try {
+      const posts = await PostModel.find();
+      res.json(posts);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  })
+);
+
 module.exports = router;

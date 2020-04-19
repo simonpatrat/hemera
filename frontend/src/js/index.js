@@ -9,6 +9,7 @@ const modules = {
   userMenu: import("./modules/userMenu"),
   registerForm: import("./modules/registerForm"),
   postActions: import("./modules/postActions"),
+  categoryActions: import("./modules/categoryActions"),
 };
 
 (function(window) {

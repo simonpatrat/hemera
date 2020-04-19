@@ -36,18 +36,25 @@ function addPostForm(form) {
       reader.readAsDataURL(input.files[0]);
     }
   });
+  const updatePostId = form.getAttribute("data-postid");
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const categories = Array.from(form.categories)
+    const categoriesArray = !!form.categories.length
+      ? Array.from(form.categories)
+      : [form.categories];
+
+    const categories = categoriesArray
       .filter((cat) => {
         return cat.checked;
       })
       .map((cat) => {
         return {
-          id: cat.value,
+          _id: cat.value,
+          catId: cat.value,
           name: cat.dataset.name,
+          posts: JSON.parse(cat.dataset.posts),
         };
       });
 
@@ -95,14 +102,48 @@ function addPostForm(form) {
 
       const outputData = await editor.save();
 
+      const isEditMode = !!updatePostId;
+      if (isEditMode) {
+        formData.append("postId", updatePostId);
+
+        /* const catsToSave = await Promise.all(
+          categories.map(async (cat) => {
+            const newPosts = Array.from(new Set([...cat.posts, updatePostId]));
+
+            const updatedCategory = await fetch("/admin/categories/edit", {
+              method: "POST",
+              body: JSON.stringify({
+                ...cat,
+                categoryId: cat._id,
+                posts: newPosts,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+
+            const updatedCategoryJson = await updatedCategory.json();
+
+            console.log("CATEGORY UPDATED", updatedCategoryJson);
+            return updatedCategoryJson;
+          })
+        );
+
+        console.log("catsToSave: ", catsToSave); */
+      }
       formData.append("editorContent", JSON.stringify(outputData));
       formData.append("featuredImage", JSON.stringify(savedFeaturedImage));
       formData.append("categories", JSON.stringify(categories));
-      const responseData = await fetch(apiUrl, {
+
+      const urlToFetch = isEditMode
+        ? "/admin/articles/edit/" + updatePostId
+        : apiUrl;
+      const responseData = await fetch(urlToFetch, {
         method,
         body: formData,
       });
-      const response = await responseData.json();
+
+      const savedPost = await responseData.json();
 
       loadingOverlay.style.display = "none";
 
@@ -110,6 +151,7 @@ function addPostForm(form) {
       submitButtons.forEach((button) => {
         button.setAttribute("disabled", false);
       });
+      window.location.href = "/admin/articles/edit/" + savedPost.post.slug;
     } catch (error) {
       console.error("Editor saving failed: ", error);
 

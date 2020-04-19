@@ -12,6 +12,8 @@ block content
             li.categories-list__item.list-table__item
                 span.list-table__item__column= category.name
                 span.list-table__item__column= category.description
+                span.list-table__item__column
+                  button.btn.btn--danger(aria-label="Delete category" data-module="categoryActions" data-options={action: "delete", categoryId: category._id, redirect: '/admin/categories' }) X
   p Add category
   form.form(action="/admin/categories/add" method="POST")
     .form__part

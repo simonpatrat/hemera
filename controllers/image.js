@@ -32,12 +32,12 @@ const image_save = async (req, res, next, fields, files) => {
   await optimizeImages({
     images: [file.path],
     width: 1920,
-    quality: 60
+    quality: 60,
   });
   const s3Upload = await uploadFile({
     file: file.path,
     name: fileName,
-    fileExtension
+    fileExtension,
   });
 
   if (!!s3Upload.error) {
@@ -47,13 +47,13 @@ const image_save = async (req, res, next, fields, files) => {
   const { Location, ETag } = s3Upload;
 
   let image = new Image({
-    dateUploaded: new Date().toString(),
+    dateUploaded: new Date().toISOString(),
     title,
     colorPalette: colorPalette,
     description,
     url: Location || getImageUrl(file),
     fileName,
-    s3_eTag: ETag
+    s3_eTag: ETag,
   });
 
   await image.save(function(err) {
@@ -64,12 +64,10 @@ const image_save = async (req, res, next, fields, files) => {
     res.json({
       success: 1,
       file: {
-        url: image.url,
         // ... and any additional fields you want to store, such as width, height, color, extension, etc
-        ...image,
-        s3_eTag: null
+        ...image._doc,
       },
-      message: "Image Saved successfully!"
+      message: "Image Saved successfully!",
     });
   });
 };

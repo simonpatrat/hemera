@@ -54,6 +54,20 @@ router.post("/add", checkIsAuthenticated, (req, res, next) => {
   }
 });
 
+router.post("/edit/:postSlug", checkIsAuthenticated, async (req, res, next) => {
+  const { currentUser } = res.locals;
+
+  if (currentUser && currentUser.canPublish()) {
+    return article_controller.article_create(req, res, next);
+  } else {
+    const error = new Error({
+      type: 500,
+      message: "Current user has not the right to update",
+    });
+    return next(error);
+  }
+});
+
 router.post("/delete", checkIsAuthenticated, async (req, res, next) => {
   const { currentUser } = res.locals;
   if (currentUser && currentUser.canDelete()) {

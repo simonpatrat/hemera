@@ -24,8 +24,25 @@ block content
                             ul.categories-input-list
                                 each category, index in categories
                                     div.categories-input-list__item
-                                        input(type="checkbox" id=category._id name="categories" value=category._id data-name=category.name checked= post && post.categories.some(cat => cat.id.toString() === category._id.toString()))
-                                        label(for=category._id) #{category.name} - #{category._id}
+                                        input(
+                                            type="checkbox"
+                                            id=category._id
+                                            name="categories"
+                                            value=category._id
+                                            data-name=category.name
+                                            data-slug=category.slug
+                                            data-posts=category.posts
+                                            checked= post && post.categories.some(
+                                                cat => {
+                                                    console.log('CAT: ', cat._id);
+                                                    console.log(' = ');
+                                                    console.log('category: ', category._id);
+                                                    console.log(cat._id === category._id);
+
+                                                    return cat._id.toString() === category._id.toString()
+                                                })
+                                            )
+                                        label(for=category._id) #{category.name}
                     .form__part.form__part--add-image#featuredImage-container
                         label.btn(for="featuredImage") Ajouter une image à la une
                         input(type="file" name="featuredImage" id="featuredImage" value=post && post.featuredImage ? post.featuredImage.url : '')
@@ -39,7 +56,6 @@ block content
         script.
             let post = !{JSON.stringify(post).replace(/<\//g, '<\\/')}
             window.__POST__EDITOR__preloadedFields = post.content;
-            console.log(post);
 
 
 

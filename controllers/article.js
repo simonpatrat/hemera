@@ -2,6 +2,7 @@ const formidable = require("formidable");
 const slugify = require("slugify");
 const uuidV4 = require("uuid/v4");
 const Post = require("../models/post");
+const Categories = require("../models/category");
 
 exports.article_delete = async function(req, res, next) {
   return new Promise(async (resolve, reject) => {
@@ -17,6 +18,7 @@ exports.article_delete = async function(req, res, next) {
     }
   });
 };
+
 exports.article_create = async function(req, res, next) {
   try {
     const form = formidable({ multiples: true });
@@ -53,32 +55,77 @@ exports.article_create = async function(req, res, next) {
       easyId,
       slug,
       content,
-      featuredImage,
+      featuredImage: updatedFeaturedImage,
       categories,
       metas,
+      postId,
     } = postData;
 
-    let post = new Post({
-      easyId,
-      dateCreated: new Date().toUTCString(),
-      title,
-      slug,
-      content,
-      featuredImage: JSON.parse(featuredImage),
-      categories: JSON.parse(categories),
-      metas,
-      author: {
-        name: res.locals.currentUser.username,
-      },
-    });
+    const isUpdateMode = !!postId;
 
-    post.save(function(err) {
-      if (err) {
-        console.log(err);
-        return next(err);
+    if (isUpdateMode) {
+      const filter = {
+        _id: postId,
+      };
+      const newFeaturedImage = !!updatedFeaturedImage
+        ? { featuredImage: JSON.parse(updatedFeaturedImage) }
+        : {};
+      const update = {
+        title,
+        slug,
+        content,
+        metas,
+        ...newFeaturedImage,
+        categories: JSON.parse(categories),
+        dateUpdated: new Date().toISOString(),
+      };
+
+      let newPost = await Post.findOneAndUpdate(filter, update, {
+        new: true,
+      });
+
+      console.log("CATEGORIES: ", categories);
+
+      if (!newPost) {
+        throw new Error({
+          error: true,
+          message: "Post " + postId + " not found",
+        });
+      } else {
+        res.status(200).json({
+          error: false,
+          message: "Updated post " + postId + " with success!",
+          post: newPost,
+        });
       }
-      res.status(200).json(formData);
-    });
+    } else {
+      let post = new Post({
+        easyId,
+        dateCreated: new Date().toISOString(),
+        dateUpdated: new Date().toISOString(),
+        title,
+        slug,
+        content,
+        featuredImage: JSON.parse(updatedFeaturedImage),
+        categories: JSON.parse(categories),
+        metas,
+        author: {
+          name: res.locals.currentUser.username,
+        },
+      });
+
+      post.save(function(err) {
+        if (err) {
+          console.log(err);
+          return next(err);
+        }
+        res.status(200).json({
+          error: false,
+          message: "Saved post " + postId + " with success!",
+          post,
+        });
+      });
+    }
   } catch (error) {
     console.log("ERROR SAVING POST : ", error);
     return next(error);

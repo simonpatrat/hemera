@@ -27,7 +27,7 @@
     "http-errors": "~1.6.3",
     "icons": "^1.0.0",
     "jimp": "^0.9.5",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "mongoose": "^5.9.3",
     "morgan": "^1.9.1",
     "node-vibrant": "^3.2.0-alpha",
